@@ -1,0 +1,19 @@
+{
+  "name": "socketio",
+  "version": "1.0.0",
+  "description": "socket.io test",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/utcb/socketio.git"
+  },
+  "author": "leon",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/utcb/socketio/issues"
+  },
+  "homepage": "https://github.com/utcb/socketio#readme"
+}
