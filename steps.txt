@@ -1,2 +1,10 @@
 npm init
-
+git init
+git add .
+git commit -m "first commit"
+git remote add origin https://github.com/utcb/socketio.git
+git push -u origin master
+npm install socket.io express --save
+npm install jquery --save
+npm install nodemon -g
+    * nodemon app.js # 和node app.js相比，nodemon可以hot reload

@@ -1,0 +1,55 @@
+<!doctype html>  
+<html lang="en">  
+    <head>
+        <script src="/jquery/dist/jquery.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+    </head>
+    <body>
+        <h1>Hello World!</h1>
+        <div id="future"></div>
+        <form id="form" id="chat_form">
+            <input id="chat_input" type="text">
+            <input type="submit" value="Send">
+        </form>
+
+<script>
+    var clientId = null;
+    var socket = io.connect('/gomoku/chat', {
+        query: {
+            token: 'ABCDEFGH12345678'
+        }
+    });
+    socket.on('connect', function() {
+        console.log(socket.id, socket.io.engine.id, socket.json.id);
+        clientId = socket.io.engine.id;
+        socket.emit('join', 'Hello World from client');
+    });
+    function optimizeMessage(data) {
+        let i = -1;
+        if (!clientId || !data || (i = data.indexOf(':')) === -1) {
+            return data;
+        }
+        let isme = data.substring(0, i).endsWith(clientId);
+        if (isme) {
+            return "me: " + data.substring(i + 2);
+        } else {
+            return "peer: " + data.substring(i + 2);
+        }
+    }
+
+    socket.on('broad_message', function(data) {
+        $('#future').append(optimizeMessage(data)+ "<br/>");
+    });
+
+    $('form').submit(function(e){
+        e.preventDefault();
+        var message = $('#chat_input').val();
+        socket.emit('chat_message', message);
+    });
+
+    socket.on('chat_message', function(data) {
+        console.log("get message :" + data);
+    });
+</script>
+    </body>
+</html>
