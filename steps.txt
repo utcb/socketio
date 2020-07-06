@@ -8,3 +8,4 @@ npm install socket.io express --save
 npm install jquery --save
 npm install nodemon -g
     * nodemon app.js # 和node app.js相比，nodemon可以hot reload
+npm install socketio-jwt

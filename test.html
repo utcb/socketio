@@ -8,17 +8,27 @@
         <h1>Hello World!</h1>
         <div id="future"></div>
         <form id="form" id="chat_form">
-            <input id="chat_input" type="text">
+            <input id="chat_input" type="text" size="60">
             <input type="submit" value="Send">
         </form>
 
 <script>
     var clientId = null;
+    var token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiR29tb2t1IFBsYXllciIsImFkbWluIjpmYWxzZSwidG9rZW4iOiJiYlYxdUhoZmVLdW0rbmdiRGdKNlNNZHYzUkgxTGRGWWVMSWp1ZEhLcVZBPSJ9.ODJVThBlGFXiGQnWTvMlpCSyBWchv6fggOaYJfgxyF8";
     var socket = io.connect('/gomoku/chat', {
-        query: {
-            token: 'ABCDEFGH12345678'
+        query: `token=${token}`
+    });
+
+    socket.on('error', err => {
+        if( err.code === 'invalid_token' && err.type === 'UnauthorizedError' && err.message === 'jwt expired' ) {
+            // Handle token expiration
+            console.log("token expired");
+        } else {
+            console.log(err);
+            alert(err.code + " : " + err.type + " : " + err.message);
         }
     });
+
     socket.on('connect', function() {
         console.log(socket.id, socket.io.engine.id, socket.json.id);
         clientId = socket.io.engine.id;
@@ -45,6 +55,8 @@
         e.preventDefault();
         var message = $('#chat_input').val();
         socket.emit('chat_message', message);
+        $('#chat_input').val("").focus();
+
     });
 
     socket.on('chat_message', function(data) {
