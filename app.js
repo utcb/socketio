@@ -33,4 +33,18 @@ io.of('/gomoku/chat').on('connection', function(client) {
     });
 });
 
+io.of('gomoku/play').on('connection', function(client) {
+    console.log('Player connected...');
+    client.on('join', function(data) {
+       console.log(data);
+        // boradcast to all except client himself
+       client.broadcast.emit('broad_join', data);
+       client.on('action', function(data) {
+            console.log('action: ' + data);
+            client.broadcast.emit('broad_action', data);
+       })
+    });
+});
+
+
 server.listen(3479);

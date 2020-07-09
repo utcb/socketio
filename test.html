@@ -56,7 +56,7 @@
         var message = $('#chat_input').val();
         socket.emit('chat_message', message);
         $('#chat_input').val("").focus();
-
+        return false;
     });
 
     socket.on('chat_message', function(data) {
