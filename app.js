@@ -44,6 +44,10 @@ io.of('gomoku/play').on('connection', function(client) {
             client.broadcast.emit('broad_action', data);
        })
     });
+    client.on('disconnect', function() {
+        console.log('disconnect: ' + client.id);
+        client.broadcast.emit('leave', client.id);
+    });
 });
 
 
