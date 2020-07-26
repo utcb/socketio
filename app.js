@@ -42,7 +42,23 @@ io.of('gomoku/play').on('connection', function(client) {
        client.on('action', function(data) {
             console.log('action: ' + data);
             client.broadcast.emit('broad_action', data);
-       })
+       });
+       client.on('welcome', function(data){
+        console.log('welcome: ' + data);
+        client.broadcast.emit('welcome', data);
+       });
+       client.on('tryjump', function(data){
+        console.log('tryjump: ' + data);
+        client.broadcast.emit('tryjump', data);
+       });
+       client.on('canceljump', function() {
+        console.log('canceljump');
+        client.broadcast.emit('canceljump');
+       });
+       client.on('jumpTo', function(data){
+        console.log('jumpTo: ' + data);
+        client.broadcast.emit('jumpTo', data);
+       });
     });
     client.on('disconnect', function() {
         console.log('disconnect: ' + client.id);
